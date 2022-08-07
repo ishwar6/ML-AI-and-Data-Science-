@@ -1,0 +1,14 @@
+conda create --prefix ./env pandas numpy matplotlib scikit-learn
+ To activate this environment, use
+#
+#     $ conda activate /Users/ishwarjangid/Desktop/test/ML-AI-and-Data-Science-/env
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+
+You can list all discoverable environments with `conda info --envs`.
+
+conda install jupyter
+jupyter notebook
