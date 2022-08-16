@@ -1,5 +1,5 @@
 # Machine Learning with Python
-
+Implementation of Sklearn and Deep Learning models. 
 
 Installation
 ------------
