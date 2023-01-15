@@ -1,5 +1,5 @@
 # Everything about Regression 
-### Started to mathematically improve the navigation methods based on astronomy during age of exploration in 1700s. 
+#### Started to mathematically improve the navigation methods based on astronomy during age of exploration in 1700s. 
 #
 ### _**Simply described**: **Regression** is a statistical method used to understand the relationship between a **dependent variable** and one or more **independent variables**. The goal is to predict the value of the dependent variable based on the values of the independent variables_. 
 
@@ -72,5 +72,14 @@ The slope of the line `(b1)` in a simple linear regression model is equal to the
 5. Non-constant variance: Regression analysis assumes that the variance of the errors is constant across the range of the independent variable. If the variance is not constant, the results may be biased.
 
 6. Non-normality of errors: Regression analysis assumes that the errors follow a normal distribution. If the errors do not follow a normal distribution, the results of the regression analysis may not be accurate.
+
+## But, How we can scale our simple regression for `n` numbers of features:
+
+We can use ***gradient descent*** to solve a cost function to calculate Beta Values. The `best-fit` line minimizes the squared error.  
+
+**Average squared error**:  (1/m) ( y<sup>j</sup> - y<sup>^</sup><sup>j</sup>) <sup>2</sup>
+    
+Here y<sup>^</sup><sup>j</sup> is predicted value of `y` for feature `j` while y<sup>j</sup> is actual value of `y` for `j`. Assuming total `m` observations. 
+
 
 
