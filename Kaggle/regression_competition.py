@@ -177,6 +177,66 @@ plt.show()
 # 6. There are some outliers in GrLivArea(Above grade (ground) living area square feet). Some houses with Large GrLivArea tend to have low prices. 
 
 
+####################################### Correlation Measure with Target #######################################
+
+
+
+result = df_num.drop("SalePrice", axis=1).apply(lambda x: x.corr(df_num.SalePrice, "pearson"))
+result = result.sort_values(kind='quicksort", ascending= False )
+print(result)
+
+# OverallQual      0.790982
+# GrLivArea        0.708624
+# GarageCars       0.640409
+# GarageArea       0.623431
+# TotalBsmtSF      0.613581
+# 1stFlrSF         0.605852
+# FullBath         0.560664
+# TotRmsAbvGrd     0.533723
+# YearBuilt        0.522897
+# YearRemodAdd     0.507101
+# GarageYrBlt      0.486362
+# MasVnrArea       0.477493
+# Fireplaces       0.466929
+# BsmtFinSF1       0.386420
+# LotFrontage      0.351799
+# WoodDeckSF       0.324413
+# 2ndFlrSF         0.319334
+# OpenPorchSF      0.315856
+# HalfBath         0.284108
+# LotArea          0.263843
+# BsmtFullBath     0.227122
+# BsmtUnfSF        0.214479
+# BedroomAbvGr     0.168213
+# ScreenPorch      0.111447
+# PoolArea         0.092404
+# MoSold           0.046432
+# 3SsnPorch        0.044584
+# BsmtFinSF2      -0.011378
+# BsmtHalfBath    -0.016844
+# MiscVal         -0.021190
+# LowQualFinSF    -0.025606
+# YrSold          -0.028923
+# OverallCond     -0.077856
+# MSSubClass      -0.084284
+# EnclosedPorch   -0.128578
+# KitchenAbvGr    -0.135907
+# dtype: float64
+
+                            
+# Findings
+# We can see the top correlated variables with the "SalePrice" which have a strong correlation.
+
+# These variables include, "OverallQual", "GrLivArea", "GarageCars", "GarageArea", "FullBath" and so on.
+
+# OverallQual: Rates the overall material and finish of the house
+# GrLivArea: Above grade (ground) living area square feet
+# GarageCars: Size of garage in car capacity
+# FullBath: Full bathrooms above grade
+# These Features are the possible candidates of including as a feature for modelling.
+
+# The number of Cars that fit into the garage is a consequence of the Garage Area. 'GarageCars' and 'GarageArea' are also some of the most strongly correlated variables. 
+# This is a case of Multicollinearity. So one of the feature should be chosen, we will go with GarageCars as that is most correlated with the Saleprice.
 
 
 
@@ -185,4 +245,7 @@ plt.show()
 
 
 
+
+
+                            
 
