@@ -90,6 +90,29 @@ print('Dimensions of data:', merged.shape)
 # 12 variables have the type float64 indicating they are numerical variables.
 
 
+######################### Numeric Variable Analysis ###################################
+
+
+del train["Id"] # we dont need it, it is unique id in each row
+
+# get the numeric only from train dataset
+df_num = train.select_dtypes(include = ['int64', 'float64'])
+
+print(df_num.columns.values)
+# ['MSSubClass' 'LotFrontage' 'LotArea' 'OverallQual' 'OverallCond'
+#  'YearBuilt' 'YearRemodAdd' 'MasVnrArea' 'BsmtFinSF1' 'BsmtFinSF2'
+#  'BsmtUnfSF' 'TotalBsmtSF' '1stFlrSF' '2ndFlrSF' 'LowQualFinSF'
+#  'GrLivArea' 'BsmtFullBath' 'BsmtHalfBath' 'FullBath' 'HalfBath'
+#  'BedroomAbvGr' 'KitchenAbvGr' 'TotRmsAbvGrd' 'Fireplaces' 'GarageYrBlt'
+#  'GarageCars' 'GarageArea' 'WoodDeckSF' 'OpenPorchSF' 'EnclosedPorch'
+#  '3SsnPorch' 'ScreenPorch' 'PoolArea' 'MiscVal' 'MoSold' 'YrSold'
+#  'SalePrice']
+
+print(len(df_num.columns.values))
+# 37
+
+# we have total 37 numeric variables. Since Id have been removed. 
+
 
 
 
