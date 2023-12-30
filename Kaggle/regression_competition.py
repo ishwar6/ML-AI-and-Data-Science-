@@ -118,20 +118,63 @@ print(len(df_num.columns.values))
 
 
 first_phase_histograms = ["OverallQual", "OverallCond", "LowQualFinSF", "BsmtFullBath", "BsmtHalfBath", "FullBath", "HalfBath",
- "BedroomAbvGr", "KitchenAbvGr", "TotRmsAbvGrd", "Fireplaces", "GarageCars", "OpenPorchSF", "EnclosedPorch",
- "3SsnPorch", "ScreenPorch", "MoSold"]
+                          "BedroomAbvGr", "KitchenAbvGr", "TotRmsAbvGrd", "Fireplaces", "GarageCars", "OpenPorchSF", "EnclosedPorch",
+                          "3SsnPorch", "ScreenPorch", "MoSold"]
 
 df_num[first_phase_histograms].hist(figsize=(20, 26), bins=40, color='green',alpha=0.5)
 
 
 # Second Phase: to keep clutter minimum
-second_phase_histograms = ["1stFlrSF", "2ndFlrSF", "BsmtFinSF1", "BsmtFinSF2", "BsmtUnfSF", "GarageArea", "GarageYrBlt", "GrLivArea", "LotArea", "LotFrontage", "MSSubClass", "YrSold", "YearBuilt", "YearRemodAdd", "WoodDeckSF", "TotalBsmtSF", "PoolArea", "SalePrice", "MasVnrArea", "MiscVal"]
+second_phase_histograms = ["1stFlrSF", "2ndFlrSF", "BsmtFinSF1", "BsmtFinSF2", "BsmtUnfSF", "GarageArea", 
+                           "GarageYrBlt", "GrLivArea", "LotArea", "LotFrontage", "MSSubClass", "YrSold", "YearBuilt", 
+                           "YearRemodAdd", "WoodDeckSF", "TotalBsmtSF", "PoolArea", "SalePrice", "MasVnrArea", "MiscVal"]
 df_num[second_phase_histograms].hist(figsize=(20, 26), bins=40, xrot=70, color = 'green',alpha=0.5)
 
 
+# Findings
+# Variables like "MoSold", "OverallQual", "TotRmsAbvGrd" looks more like Gaussian Variables. Variable description is given as below.
+# TotRmsAbvGrd: Total rooms above grade (does not include bathrooms)
+# Features such as "1stFlrSF", "TotalBsmtSF", "LotFrontage", "GrLiveArea" seems to share a similar distribution to the one we have with "SalePrice".
+#This is a Key Indication that they can help in Modelling. Variable description is given as below.
+
+# Applying Numerical Transformations like Log Transformations might help in improving the performance of the model as many variables don't obey the Gaussian Distribution.
+
+############################ Bivariate #####################################
+
+# Scatter Plot comes under the Bivariate analysis. It shows the relationship between the variables. 
+# We will be plotting the scatter plot between the input variables and the target variable "SalePrice" which is to be predicted. 
+ # We won't be plotting the scatter plot for the following input numerical variables 'MiscVal', 'MoSold', 'YrSold' 
 
 
+numeric_columns = ["OverallQual", "OverallCond", "LowQualFinSF", "BsmtFullBath", "BsmtHalfBath", "FullBath", "HalfBath",
+ "BedroomAbvGr", "KitchenAbvGr", "TotRmsAbvGrd", "Fireplaces", "GarageCars", "OpenPorchSF", "EnclosedPorch",
+ "3SsnPorch", "ScreenPorch", "1stFlrSF", "2ndFlrSF", "BsmtFinSF1", "BsmtFinSF2", "BsmtUnfSF", "GarageArea", "GarageYrBlt",
+  "GrLivArea", "LotArea", "LotFrontage", "MSSubClass", "YearBuilt", "YearRemodAdd", "WoodDeckSF", "TotalBsmtSF", "PoolArea", "MasVnrArea"]
 
+
+fig, axs = plt.subplots(ncols=2, nrows=1, figsize=(18, 146))
+for i, feature in enumerate(list(df_num[numeric_columns]), 1):
+    plt.subplot(len(list(numeric_columns)), 2, i)
+    sns.scatterplot(x=feature, y='SalePrice', data=df_num)
+    plt.xlabel('{}'.format(feature), size=12,labelpad=12.5)
+    plt.ylabel('SalePrice', size=12, labelpad=12.5)
+plt.show()
+
+## Findings
+
+# 1. We can see that a lot of data points are located on x = 0 which may indicate the absence of such feature in the house. For example LowQualFinSF, OpenPorchSF, EnclosedPorch, 3SsnPorch, ScreenPorch, 2ndFlrSF, BsmtFinSF1, BsmtFinSF2, BsmtUnfSF, GarageArea, WoodDeckSF, TotalBsmtSF, PoolArea and MasVnrArea. All are having some data points located on x=0, indicating missing values in the respective columns. Below are the description of the Variables for a given house.
+
+# 2. The scatter plot between "TotalBsmtSF" and "SalePrice" seems to have a Linear relationship, which would be helpful in modelling. 
+
+# 3. The scatter plot between "GrLivArea" and "SalePrice" seems to have a Linear relationship, which would be helpful in modelling. 
+
+# * GrLivArea: GrLivArea: Above grade (ground) living area square feet
+
+# 4. The scatter plot between "MasVnrArea" and "SalePrice" seems to have a Linear relationship, which would be helpful in modelling. 
+
+# 5. 1ndFlrSF and 2ndFlrSF seems to have a Linear Relationship with the "SalePrice". 
+
+# 6. There are some outliers in GrLivArea(Above grade (ground) living area square feet). Some houses with Large GrLivArea tend to have low prices. 
 
 
 
