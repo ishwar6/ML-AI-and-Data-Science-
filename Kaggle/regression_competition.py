@@ -113,7 +113,20 @@ print(len(df_num.columns.values))
 
 # we have total 37 numeric variables. Since Id have been removed. 
 
+# Univariate analysis involves the examination of a single variable in isolation. 
+# It aims to understand the distribution, summary statistics, and characteristics of a single variable without considering its relationship with other variables.
 
+
+first_phase_histograms = ["OverallQual", "OverallCond", "LowQualFinSF", "BsmtFullBath", "BsmtHalfBath", "FullBath", "HalfBath",
+ "BedroomAbvGr", "KitchenAbvGr", "TotRmsAbvGrd", "Fireplaces", "GarageCars", "OpenPorchSF", "EnclosedPorch",
+ "3SsnPorch", "ScreenPorch", "MoSold"]
+
+df_num[first_phase_histograms].hist(figsize=(20, 26), bins=40, color='green',alpha=0.5)
+
+
+# Second Phase: to keep clutter minimum
+second_phase_histograms = ["1stFlrSF", "2ndFlrSF", "BsmtFinSF1", "BsmtFinSF2", "BsmtUnfSF", "GarageArea", "GarageYrBlt", "GrLivArea", "LotArea", "LotFrontage", "MSSubClass", "YrSold", "YearBuilt", "YearRemodAdd", "WoodDeckSF", "TotalBsmtSF", "PoolArea", "SalePrice", "MasVnrArea", "MiscVal"]
+df_num[second_phase_histograms].hist(figsize=(20, 26), bins=40, xrot=70, color = 'green',alpha=0.5)
 
 
 
