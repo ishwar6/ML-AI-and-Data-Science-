@@ -238,7 +238,9 @@ print(result)
 # The number of Cars that fit into the garage is a consequence of the Garage Area. 'GarageCars' and 'GarageArea' are also some of the most strongly correlated variables. 
 # This is a case of Multicollinearity. So one of the feature should be chosen, we will go with GarageCars as that is most correlated with the Saleprice.
 
-
+# The Pearson correlation measures the strength of the linear relationship between two variables. 
+# It has a value between -1 to 1, with a value of -1 meaning a total negative linear correlation, 
+# 0 being no correlation, and + 1 meaning a total positive correlation.
 
 
 
