@@ -278,6 +278,149 @@ getboxPlots(train_copy,'SalePrice', categorical)
 # Houses with Foundation of Poured Contrete has more price.
 
 
+################################## Numerical Feature Transformation #######################################################
+
+# As we noticed from above Histograms that most of the Numerical Features do not obey the Gaussian Distribution 
+# so transforming the Numerical Variables might give us the boost in the performace of the models. Transformation will happen in the following steps
+
+# 1. We will be calculating the Skewness of Numberical Variables on the Training Dataset (train.csv). We will compute the Skewness of a column after dropping the missing values in it. 
+
+# 2. We will filter out the Numerical Variables having Skewness greater than some threshhold say 0.75.
+
+# 3. We will apply Log Transformation on all Numerical Variables in both the train and test files which are having the skewness greater than threshold.
+
+
+
+all_data = pd.concat((train.loc[:,'MSSubClass':'SaleCondition'],
+                      test.loc[:,'MSSubClass':'SaleCondition']))
+
+numeric_feats = all_data.dtypes[all_data.dtypes != "object"].index # Getting the Numerical Features
+skewed_feats = train[numeric_feats].apply(lambda x: skew(x.dropna())) # Computing the Skewness of Columns
+
+# skewed_feats
+
+# MSSubClass        1.406210
+# LotFrontage       2.160866
+# LotArea          12.195142
+# OverallQual       0.216721
+# OverallCond       0.692355
+# YearBuilt        -0.612831
+# YearRemodAdd     -0.503044
+# MasVnrArea        2.666326
+# BsmtFinSF1        1.683771
+# BsmtFinSF2        4.250888
+# BsmtUnfSF         0.919323
+# TotalBsmtSF       1.522688
+# 1stFlrSF          1.375342
+# 2ndFlrSF          0.812194
+# LowQualFinSF      9.002080
+# GrLivArea         1.365156
+# BsmtFullBath      0.595454
+# BsmtHalfBath      4.099186
+# FullBath          0.036524
+# HalfBath          0.675203
+# BedroomAbvGr      0.211572
+# KitchenAbvGr      4.483784
+# TotRmsAbvGrd      0.675646
+# Fireplaces        0.648898
+# GarageYrBlt      -0.648708
+# GarageCars       -0.342197
+# GarageArea        0.179796
+# WoodDeckSF        1.539792
+# OpenPorchSF       2.361912
+# EnclosedPorch     3.086696
+# 3SsnPorch        10.293752
+# ScreenPorch       4.117977
+# PoolArea         14.813135
+# MiscVal          24.451640
+# MoSold            0.211835
+# YrSold            0.096170
+# dtype: float64
+
+
+skewed_feats = skewed_feats[skewed_feats > 0.75] # Keeping only those having skewness greater than 0.75
+skewed_feats = skewed_feats.index # Getting the columns in a separate list
+print(skewed_feats)
+
+# Index(['MSSubClass', 'LotFrontage', 'LotArea', 'MasVnrArea', 'BsmtFinSF1',
+#        'BsmtFinSF2', 'BsmtUnfSF', 'TotalBsmtSF', '1stFlrSF', '2ndFlrSF',
+#        'LowQualFinSF', 'GrLivArea', 'BsmtHalfBath', 'KitchenAbvGr',
+#        'WoodDeckSF', 'OpenPorchSF', 'EnclosedPorch', '3SsnPorch',
+#        'ScreenPorch', 'PoolArea', 'MiscVal'],
+#       dtype='object')
+
+all_data[skewed_feats] = np.log1p(all_data[skewed_feats]) #Applying the log transformation on the Chosen Numerical Features
+
+
+############################### Categorical Variable Encoding ##########################################
+
+all_data = pd.get_dummies(all_data) # It automatically transforms the Categorical Variables
+
+# we can see how the SaleCondition which is having the possible values Normal, Abnorml, AdjLand, Alloca, Family and Partial,
+# is now split into 6 different columns with a value of 1 present in the respective column indicating its presence in the respective instance.
+# SaleCondition_Abnormal, SaleCondition_Normal, SaleCondition_Partial etc. 
+
+
+
+###################################################  Percentage of Missing Values ###################################################  
+
+def percent_missing(df):
+    data = pd.DataFrame(df)
+    df_cols = list(pd.DataFrame(data))
+    dict_x = {}
+    for i in range(0, len(df_cols)):
+        dict_x.update({df_cols[i]: round(data[df_cols[i]].isnull().mean()*100,2)})
+    
+    return dict_x
+
+missing = percent_missing(all_data)
+df_miss = sorted(missing.items(), key=lambda x: x[1], reverse=True)
+print('Percent of missing data')
+# df_miss[0:20]
+
+# [('LotFrontage', 16.65),
+#  ('GarageYrBlt', 5.45),
+#  ('MasVnrArea', 0.79),
+#  ('BsmtFullBath', 0.07),
+#  ('BsmtHalfBath', 0.07),
+#  ('BsmtFinSF1', 0.03),
+#  ('BsmtFinSF2', 0.03),
+#  ('BsmtUnfSF', 0.03),
+#  ('TotalBsmtSF', 0.03),
+#  ('GarageCars', 0.03),
+#  ('GarageArea', 0.03),
+#  ('MSSubClass', 0.0),
+#  ('LotArea', 0.0),
+#  ('OverallQual', 0.0),
+#  ('OverallCond', 0.0),
+#  ('YearBuilt', 0.0),
+#  ('YearRemodAdd', 0.0),
+#  ('1stFlrSF', 0.0),
+#  ('2ndFlrSF', 0.0),
+#  ('LowQualFinSF', 0.0)]
+
+
+## Mean Imputation
+
+# Now we will replace the missing values with the mean of the respective columns.
+
+all_data = all_data.fillna(all_data.mean())
+
+
+missing = percent_missing(all_data)
+df_miss = sorted(missing.items(), key=lambda x: x[1], reverse=True)
+print('Percent of missing data')
+# df_miss[0:20]
+# Percent of missing data
+# [('MSSubClass', 0.0),
+#  ('LotFrontage', 0.0),
+#  ('LotArea', 0.0),
+#  ('OverallQual', 0.0),
+#  ('OverallCond', 0.0),
+#  ('YearBuilt', 0.0),
+#  ('YearRemodAdd', 0.0),
+#  ('MasVnrArea', 0.0),
+#  ('BsmtFinSF1', 0.0),
 
 
 
@@ -286,5 +429,19 @@ getboxPlots(train_copy,'SalePrice', categorical)
 
 
 
-                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
