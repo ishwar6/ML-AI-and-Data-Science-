@@ -243,6 +243,41 @@ print(result)
 # The number of Cars that fit into the garage is a consequence of the Garage Area. 'GarageCars' and 'GarageArea' are also some of the most strongly correlated variables. 
 # This is a case of Multicollinearity. So one of the feature should be chosen, we will go with GarageCars as that is most correlated with the Saleprice.
 
+########################## Categorical Variable Analysis #########################################
+         
+ # Function responsible for plotting the BoxPlot
+def boxplot(x, y, **kwargs):
+    sns.boxplot(x=x, y=y)
+    x=plt.xticks(rotation=90)
+
+# Replacing the Missing Values in the Categorical Variables with the "MISSING" string
+def fillMissingCatColumns(data,categorical):
+    for c in categorical:
+        data[c] = data[c].astype('category')
+        if data[c].isnull().any():
+            data[c] = data[c].cat.add_categories(['MISSING'])
+            data[c] = data[c].fillna('MISSING')
+# Main function responsible for plotting the BoxPlots
+def getboxPlots(data,var,categorical):
+    fillMissingCatColumns(data,categorical)
+    f = pd.melt(data, id_vars=var, value_vars=categorical)
+    g = sns.FacetGrid(f, col="variable",  col_wrap=2, sharex=False, sharey=False, height=5)
+    g = g.map(boxplot, "value", var)
+
+
+# this is the main client driver code: that will use above 3 functions. 
+
+categorical = [f for f in train.columns if train.dtypes[f] == 'object']   
+train_copy = train.copy(True) 
+getboxPlots(train_copy,'SalePrice', categorical)
+
+# Street, which is the type of road access to the the property, with Pave tend to have more price.
+# ExterQual (exterior quality of the house) with excellent condition has more price. Same holds for BsmtQual, KichenQual, GarageQual and PoolQC.
+# Houses with Central Air conditioning (CentralAir) has more price.
+# Houses having PavedDrive are having more price.
+# Houses with Foundation of Poured Contrete has more price.
+
+
 
 
 
