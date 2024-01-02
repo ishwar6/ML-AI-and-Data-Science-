@@ -436,9 +436,13 @@ y_train = train.SalePrice # Retrieving the output variable "SalePrice" of the tr
 # DummyRegressor
 from sklearn.dummy import DummyRegressor
 dummy_reg = DummyRegressor(strategy="mean")
+
+#The strategy parameter is set to "mean". This means that the dummy regressor will make predictions by always using the mean (average) value of the target variable as the predicted value.
+# it simply predicts the mean value for all examples.
 dummy_reg.fit(X_train, y_train)
 
 # Now predict
+
 y_pred = dummy_reg.predict(X_train)
 
 # lets compute the RMS: 
