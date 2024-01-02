@@ -424,8 +424,44 @@ print('Percent of missing data')
 
 
 
+#creating matrices for sklearn:
+X_train = all_data[:train.shape[0]] # Retrieving the rows for train from the all_data
+X_test = all_data[train.shape[0]:] # Retrieving the rows for test from the all_data
+y_train = train.SalePrice # Retrieving the output variable "SalePrice" of the train dataset 
 
 
+
+# Now we can use regression: 
+
+# DummyRegressor
+from sklearn.dummy import DummyRegressor
+dummy_reg = DummyRegressor(strategy="mean")
+dummy_reg.fit(X_train, y_train)
+
+# Now predict
+y_pred = dummy_reg.predict(X_train)
+
+# lets compute the RMS: 
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+
+dummy_rmse = sqrt(mean_squared_error(y_train, y_pred))
+print(dummy_rmse)
+
+#79415.29
+
+# Ridge Regression
+
+from sklearn import linear_model
+ridge_reg = linear_model.Ridge(alpha=0.5)
+ridge_reg.fit(X_train, y_train)
+
+y_pred = ridge_reg.predict(X_train)
+# Computing the Root Mean Squared Error 
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+ridge_rmse = sqrt(mean_squared_error(y_train, y_pred))
+print(ridge_rmse)
 
 
 
