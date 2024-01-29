@@ -17,7 +17,6 @@ test = pd.read_csv("/usr/local/notebooks/datasets/Regression_Competition_Dataset
 train.head()
 test.head()
 
-
 '''Dimensions of train and test data'''
 print('Dimensions of train data:', train.shape)
 print('Dimensions of test data:', test.shape)
