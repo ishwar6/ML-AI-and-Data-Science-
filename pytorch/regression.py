@@ -44,7 +44,11 @@ for epoch in range(num_epochs):
 
     print(f'Epoch {epoch}  Loss {loss.item():.4f}')
 
+# Gradient Zeroing (grad.zero_())
+# After the parameters are updated, the gradients need to be zeroed out manually because PyTorch accumulates gradients on subsequent backward passes.
 
+# loss.backward() computes the gradient of the loss with respect to all tensors with requires_grad=True. However, loss itself is typically a scalar value and doesn't have parameters that it needs to adjust—it's the end point of the computation graph. Thus, loss.grad is not meaningful or used.
+# The purpose of backpropagation is not to adjust the loss itself but to adjust the model's parameters (weight and bias in your case) in a way that the loss decreases.
 # Why Compute Gradients?
 # The gradients represent the slope of the loss function with respect to each parameter. 
 # In other words, they tell us how to change the parameters to minimize the loss.
