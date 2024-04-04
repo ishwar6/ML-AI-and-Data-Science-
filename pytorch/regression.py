@@ -51,3 +51,15 @@ for epoch in range(num_epochs):
 # By knowing the direction in which each parameter should be adjusted (increase or decrease) 
 # and how significant the adjustment should be, we can update the parameters to make our model more accurate.
  
+#### output ###
+# tensor([-0.1151], grad_fn=<AddBackward0>)
+# loss calculation tensor([-0.1151], grad_fn=<AddBackward0>) tensor([5.])
+# loss tensor(26.1645, grad_fn=<MeanBackward0>)
+# weight tensor([0.6614], requires_grad=True)
+# weight  now tensor([0.6596], requires_grad=True)
+
+# tensor([0.8139], grad_fn=<AddBackward0>)
+# loss calculation tensor([0.8139], grad_fn=<AddBackward0>) tensor([8.])
+# loss tensor(51.6394, grad_fn=<MeanBackward0>)
+# weight tensor([0.6596], requires_grad=True)
+# weight  now tensor([0.6771], requires_grad=True)
