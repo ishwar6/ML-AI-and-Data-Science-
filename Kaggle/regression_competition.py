@@ -9,7 +9,6 @@ plt.style.use('seaborn')
 from scipy.stats import skew, pearsonr
 
 # Load the dataset
-
 train = pd.read_csv("/usr/local/notebooks/datasets/Regression_Competition_Dataset/train.csv")
 test = pd.read_csv("/usr/local/notebooks/datasets/Regression_Competition_Dataset/test.csv")
 
